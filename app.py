@@ -11,15 +11,11 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "")
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-<<<<<<< HEAD
-app = Flask(__name__, template_folder="templates", static_folder="static")
-=======
 app = Flask(
     __name__,
     template_folder="smartbiz_crm/templates",
     static_folder="smartbiz_crm/static"
 )
->>>>>>> 90e38b28c5929ae9c483d01e91d3e263ccda703d
 app.config["SECRET_KEY"] = os.environ.get("SMARTBIZ_SECRET_KEY", "change-this-development-key")
 
 
