@@ -8,7 +8,11 @@ from flask import Flask, abort, flash, g, redirect, render_template, request, ur
 BASE_DIR = Path(__file__).resolve().parent
 DATABASE = Path(os.environ.get("SMARTBIZ_DATABASE", BASE_DIR / "smartbiz.db"))
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder="smartbiz_crm/templates",
+    static_folder="smartbiz_crm/static"
+)
 app.config["SECRET_KEY"] = os.environ.get("SMARTBIZ_SECRET_KEY", "change-this-development-key")
 
 
