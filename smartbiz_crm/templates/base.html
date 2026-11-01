@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SmartBiz CRM{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">S</span><span>SmartBiz <small>CRM</small></span></a>
+  <nav>
+    <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}">Dashboard</a>
+    <a href="{{ url_for('customers') }}" class="{{ 'active' if request.endpoint in ['customers','customer_new','customer_edit'] else '' }}">Customers</a>
+    <a href="{{ url_for('sales') }}" class="{{ 'active' if request.endpoint in ['sales','sale_new'] else '' }}">Sales</a>
+    <a href="{{ url_for('followups') }}" class="{{ 'active' if request.endpoint in ['followups','followup_new'] else '' }}">Follow-ups</a>
+    <a href="{{ url_for('reports') }}" class="{{ 'active' if request.endpoint == 'reports' else '' }}">Reports</a>
+    <a href="{{ url_for('settings') }}" class="{{ 'active' if request.endpoint == 'settings' else '' }}">Settings</a>
+  </nav>
+</header>
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<div class="flash-wrap">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+  <footer>SmartBiz CRM · Built for simple SME customer management · Amounts shown in UGX</footer>
+</main>
+</body>
+</html>

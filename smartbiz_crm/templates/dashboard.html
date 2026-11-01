@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · SmartBiz CRM{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">OVERVIEW</p><h1>Good business starts with good relationships.</h1><p class="muted">A quick view of your customers, sales and next actions.</p></div><a class="button" href="{{ url_for('customer_new') }}">＋ Add customer</a></div>
+<section class="stats">
+  <article class="stat"><span class="stat-icon teal">♙</span><p>Total customers</p><strong>{{ customer_count }}</strong><small>Customer records</small></article>
+  <article class="stat"><span class="stat-icon green">↗</span><p>Won sales</p><strong>{{ sales_total|ugx }}</strong><small>Value of opportunities marked Won</small></article>
+  <article class="stat"><span class="stat-icon blue">◎</span><p>Open pipeline</p><strong>{{ pipeline_total|ugx }}</strong><small>Lead, Proposal and Negotiation</small></article>
+  <article class="stat"><span class="stat-icon orange">◷</span><p>Open follow-ups</p><strong>{{ open_followups }}</strong><small>{{ overdue }} overdue</small></article>
+</section>
+<div class="two-col">
+  <section class="panel"><div class="panel-heading"><div><h2>Recent sales activity</h2><p class="muted">Latest recorded opportunities</p></div><a href="{{ url_for('sales') }}">View all →</a></div>
+  {% if recent_sales %}<div class="table-wrap"><table><thead><tr><th>Opportunity</th><th>Customer</th><th>Value</th><th>Stage</th></tr></thead><tbody>
+  {% for s in recent_sales %}<tr><td><strong>{{ s.title }}</strong></td><td>{{ s.customer_name or 'Not linked' }}</td><td>{{ s.amount|ugx }}</td><td><span class="stage {{ s.stage|lower }}">{{ s.stage }}</span></td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<div class="empty"><span>↗</span><strong>No sales recorded yet</strong><p>Add a sales opportunity to start tracking your pipeline.</p><a href="{{ url_for('sale_new') }}">Record a sale</a></div>{% endif %}</section>
+  <section class="panel"><div class="panel-heading"><div><h2>Upcoming follow-ups</h2><p class="muted">Tasks that still need attention</p></div><a href="{{ url_for('followups') }}">View all →</a></div>
+  {% if upcoming %}<div class="task-list">{% for f in upcoming %}<div class="task-row"><div class="task-date"><b>{{ f.due_date[8:10] }}</b><small>{{ f.due_date[5:7] }}/{{ f.due_date[0:4] }}</small></div><div class="task-info"><strong>{{ f.title }}</strong><small>{{ f.customer_name or 'No customer linked' }}</small></div>{% if f.due_date < today %}<span class="pill overdue">Overdue</span>{% else %}<span class="pill pending">Pending</span>{% endif %}</div>{% endfor %}</div>{% else %}<div class="empty"><span>✓</span><strong>You're all caught up</strong><p>No open follow-up tasks.</p><a href="{{ url_for('followup_new') }}">Create a task</a></div>{% endif %}</section>
+</div>
+<div class="tip"><strong>SmartBiz tip</strong><span>Record each customer interaction and set a follow-up date so opportunities do not get forgotten.</span></div>
+{% endblock %}
